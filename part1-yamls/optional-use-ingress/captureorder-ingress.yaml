@@ -1,0 +1,16 @@
+# This is an alternative approach to opening the service to the outside world.
+# Beware, If you'll use this approach, then the service definition must also be changed.
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    name: captureorder
+spec:
+    rules:
+    - http:
+          paths:
+            - backend:
+                serviceName: captureorder
+                servicePort: 8080
+              path: /

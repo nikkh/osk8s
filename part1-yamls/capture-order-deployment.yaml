@@ -1,0 +1,36 @@
+# Creates a deployment that defines our capture order API app, related settings and configuration
+# This deployment must be created before the service. The service references the app defined in this deployment
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: captureorder
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: captureorder
+    spec:      
+      containers:
+        - name: captureorder
+          image: torosent/captureorderack
+          ports:
+          - containerPort: 8080
+          imagePullPolicy: Always
+          env:
+           -  name:  "MONGOURL"
+              value: "mongodb://mongo-mongodb"
+           -  name: "AMQPURL"
+              value: "amqp://admin:my-password@rabbit-rabbitmq:5672"
+           -  name:  "TEAMNAME"
+              value: "Team1-DWP1118"
+           -  name:  "PARTITIONKEY"
+              value: "0" 
+           -  name:  "CHALLENGEAPPINSIGHTS_KEY"
+              value: "2fefadc2-0f4a-475f-8279-2cd4043e1b55"
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "250m"

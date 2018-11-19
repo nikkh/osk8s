@@ -1,0 +1,17 @@
+# Creates a kubernetes service that is referencing the application we defined in our deployment.
+# This must be run after the deployment that creates the fulfill order app.
+# The one tricky part of this yaml file is the annotation section which allows us to adhere to the 
+# requirement "The fulfillorder container must be deployed as an internal only API" as set forth in the challenge.
+kind: Service
+apiVersion: v1
+metadata:
+  name: fulfillorder
+  annotations:
+       service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  selector:
+    app: fulfillorder
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

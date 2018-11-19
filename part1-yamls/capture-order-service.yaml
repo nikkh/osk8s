@@ -1,0 +1,14 @@
+# Creates a kubernetes service that is referencing the application we defined in our deployment.
+# This must be run after the deployment that creates the capture order api app.
+apiVersion: v1
+kind: Service
+metadata:
+  name: captureorder
+spec:
+  selector:
+    app: captureorder
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080    
+  type: LoadBalancer

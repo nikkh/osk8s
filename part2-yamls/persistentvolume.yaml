@@ -1,0 +1,12 @@
+# Creates a persistent volume claim. Must be run after storageclass.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: oc2
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: azurefile2

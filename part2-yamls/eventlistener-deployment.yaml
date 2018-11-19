@@ -1,0 +1,31 @@
+# Creates a deployment that defines our event listener app, related settings and configuration
+# This deployment must be created before the service. The service references the app defined in this deployment
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: eventlistener
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eventlistener
+    spec:
+      containers:
+        - name: eventlistener
+          image:  torosent/rabbitmqlistenerack
+          ports:
+          - containerPort: 8080
+          imagePullPolicy: Always
+          env:
+           -  name: "AMQPURL"
+              value: "amqp://admin:my-password@rabbit-rabbitmq:5672"
+           -  name:  "PARTITIONKEY"
+              value: "0"
+           -  name:  "PROCESSENDPOINT"
+              value: "http://fulfillorder:8080/v1/order"
+           -  name:  "TEAMNAME"
+              value: "Team1-DWP1118"
+           -  name:  "CHALLENGEAPPINSIGHTS_KEY"
+              value: "2fefadc2-0f4a-475f-8279-2cd4043e1b55"

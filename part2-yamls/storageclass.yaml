@@ -1,0 +1,13 @@
+# This is basically telling our cluster to register a storage class named "azurefile" which
+# has provisioner kubernetes.io/azure-file. It's referencing the storage account we created by running the below:
+# az storage account create  -n k8schallenge -g MC_Demos-KubernetesChallenge_hack_westeurope --sku Standard_LRS
+# If you want to use a different storage acc, the name of your storage acc. should be in this file instead of k8schallenge
+# Providing the name of the storage acc. is actually optional, AKS will create the storage account automatically and give it
+# a random name if we don't explicitly provide it here.
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: azurefile2
+provisioner: kubernetes.io/azure-file
+parameters:
+  storageAccount: strteam1aks1
